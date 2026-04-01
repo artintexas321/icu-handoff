@@ -194,6 +194,7 @@ export default function PatientPage() {
         <Section title="🍽️ GI / GU / Nutrition">
           <Row label="Diet / Nutrition" value={patient.nutrition.type + ' — ' + patient.nutrition.details} />
           {patient.nutrition.tubeAccess && <Row label="Tube" value={patient.nutrition.tubeAccess} />}
+          {patient.nutrition.freeWaterFlush && <Row label="FWF" value={patient.nutrition.freeWaterFlush} />}
           <Row
             label="Foley"
             value={
