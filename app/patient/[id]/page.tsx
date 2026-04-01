@@ -194,7 +194,20 @@ export default function PatientPage() {
         <Section title="🍽️ GI / GU / Nutrition">
           <Row label="Diet / Nutrition" value={patient.nutrition.type + ' — ' + patient.nutrition.details} />
           {patient.nutrition.tubeAccess && <Row label="Tube" value={patient.nutrition.tubeAccess} />}
-          <Row label="Foley" value={patient.nutrition.foleyDate} />
+          <Row
+            label="Foley"
+            value={
+              <span className="flex items-center gap-2">
+                {patient.nutrition.foleyDate}
+                {patient.nutrition.urineCultureSent === true && (
+                  <span className="text-green-600 font-semibold text-xs">✓ UA sent</span>
+                )}
+                {patient.nutrition.urineCultureSent === false && (
+                  <span className="text-red-500 font-semibold text-xs">⚠ UA not sent</span>
+                )}
+              </span>
+            }
+          />
           <Row
             label="Urine Output"
             value={patient.nutrition.urineOutput}
