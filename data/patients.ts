@@ -11,6 +11,8 @@ export interface Patient {
   admitDate: string
   admitSource: string
   codeStatus: CodeStatus
+  height: string
+  weight: string
   allergies: string[]
   familyContact: string
   familyPhone: string
@@ -68,6 +70,8 @@ export const patients: Patient[] = [
     admitDate: '03/27/2026',
     admitSource: 'ED',
     codeStatus: 'Full Code',
+    height: '5ft 10in (178 cm)',
+    weight: '82 kg',
     allergies: ['Penicillin', 'Sulfa'],
     familyContact: 'Maria Martinez (wife)',
     familyPhone: '(210) 555-0142',
@@ -175,6 +179,8 @@ export const patients: Patient[] = [
     admitDate: '03/30/2026',
     admitSource: 'Cath Lab (direct)',
     codeStatus: 'DNR',
+    height: '5ft 4in (163 cm)',
+    weight: '61 kg',
     allergies: ['Contrast dye (mild reaction)'],
     familyContact: 'James Chen (son)',
     familyPhone: '(210) 555-0287',
@@ -257,6 +263,8 @@ export const patients: Patient[] = [
     admitDate: '03/31/2026',
     admitSource: 'ED',
     codeStatus: 'Full Code',
+    height: '5ft 9in (175 cm)',
+    weight: '110 kg',
     allergies: ['NKDA'],
     familyContact: 'Sandra Thompson (wife)',
     familyPhone: '(210) 555-0391',
@@ -343,6 +351,8 @@ export const patients: Patient[] = [
     admitDate: '03/29/2026',
     admitSource: 'Transfer — Methodist Hospital',
     codeStatus: 'DNR/DNI',
+    height: '5ft 2in (157 cm)',
+    weight: '54 kg',
     allergies: ['Aspirin', 'NSAIDs'],
     familyContact: 'Paul Kowalski (son)',
     familyPhone: '(210) 555-0504',

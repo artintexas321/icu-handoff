@@ -64,6 +64,8 @@ export default function PatientPage() {
           </div>
         </div>
         <div className="mt-3 flex flex-wrap gap-4 text-sm">
+          <div><span className="opacity-75">Ht: </span><strong>{patient.height}</strong></div>
+          <div><span className="opacity-75">Wt: </span><strong>{patient.weight}</strong></div>
           <div><span className="opacity-75">Allergies: </span><strong>{patient.allergies.join(', ')}</strong></div>
           <div><span className="opacity-75">Family: </span><strong>{patient.familyContact} — {patient.familyPhone}</strong></div>
         </div>

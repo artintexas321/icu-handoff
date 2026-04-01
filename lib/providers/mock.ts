@@ -18,6 +18,8 @@ function toSummary(p: typeof rawPatients[0]): PatientSummary {
     admitSource: p.admitSource,
     codeStatus: p.codeStatus,
     allergies: p.allergies,
+    height: p.height,
+    weight: p.weight,
     familyContact: p.familyContact,
     familyPhone: p.familyPhone,
     handoffStatus: p.handoffStatus,

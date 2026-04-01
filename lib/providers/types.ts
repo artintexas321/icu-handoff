@@ -28,6 +28,8 @@ export interface PatientSummary {
   admitDate: string
   admitSource: string
   codeStatus: string
+  height: string
+  weight: string
   allergies: string[]
   familyContact: string
   familyPhone: string
