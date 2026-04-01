@@ -38,7 +38,8 @@ export default function PatientPage() {
 
   return (
     <main className="max-w-6xl mx-auto p-4 pb-16">
-      {/* TOP STRIP */}
+
+      {/* ── 1. PATIENT INFO TOP STRIP ── */}
       <div className={`rounded-xl p-5 mb-4 ${codeAlert ? 'bg-red-700 text-white' : 'bg-blue-700 text-white'}`}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -49,7 +50,7 @@ export default function PatientPage() {
               </span>
             </div>
             <div className="mt-1 text-lg opacity-90">{patient.diagnosis}</div>
-            <div className="mt-1 text-sm opacity-75">Dr. {patient.attending.replace('Dr. ','')} · Admitted {patient.admitDate} · Source: {patient.admitSource}</div>
+            <div className="mt-1 text-sm opacity-75">Dr. {patient.attending.replace('Dr. ', '')} · Admitted {patient.admitDate} · Source: {patient.admitSource}</div>
           </div>
           <div className="flex flex-col gap-2 text-right">
             <div className={`font-bold text-lg px-3 py-1 rounded-lg ${codeAlert ? 'bg-white text-red-700' : 'bg-white/20 text-white'}`}>
@@ -68,136 +69,19 @@ export default function PatientPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-        {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-4">
-          <Section title="🧠 Neuro">
-            <Row label="Check frequency" value={patient.neuro.checkFreq} />
-            <Row label="Last check" value={`${patient.neuro.lastCheck} (${patient.neuro.lastCheckTime})`} />
-            <Row label="RASS" value={`${patient.neuro.rass} (goal ${patient.neuro.rassGoal})`} />
-            <Row label="Sedation" value={patient.neuro.sedation} />
-          </Section>
-
-          <Section title="🫁 Respiratory">
-            {patient.respiratory.intubationDate ? (
-              <>
-                <Row label="Mode" value={patient.respiratory.mode} />
-                <Row label="FiO2 / PEEP" value={`${patient.respiratory.fio2} / ${patient.respiratory.peep}`} />
-                <Row label="Rate / Vt" value={`${patient.respiratory.rate} / ${patient.respiratory.tidalVolume}`} />
-                <Row label="Intubated" value={patient.respiratory.intubationDate} highlight="yellow" />
-                <Row label="Last ABG" value={patient.respiratory.lastAbg!} />
-              </>
-            ) : (
-              <>
-                <Row label="O2" value={patient.respiratory.o2Device!} />
-                {patient.respiratory.lastAbg && patient.respiratory.lastAbg !== 'Not indicated' && (
-                  <Row label="Last ABG" value={patient.respiratory.lastAbg} />
-                )}
-              </>
-            )}
-          </Section>
-
-          <Section title="❤️ Cardiac">
-            <Row label="HR / Rhythm" value={`${patient.cardiac.hr} — ${patient.cardiac.rhythm}`} />
-            <Row
-              label="Blood Pressure"
-              value={`${patient.cardiac.bp} (${patient.cardiac.bpTrend})`}
-              highlight={patient.cardiac.bpTrend === 'worsening' ? 'red' : patient.cardiac.bpTrend === 'improving' ? 'green' : undefined}
-            />
-            {patient.cardiac.pressors.length > 0 ? (
-              patient.cardiac.pressors.map((p, i) => (
-                <Row key={i} label={i === 0 ? 'Pressors' : ''} value={`${p.name} @ ${p.rate}`} highlight="yellow" />
-              ))
-            ) : (
-              <Row label="Pressors" value="None" highlight="green" />
-            )}
-          </Section>
-
-          <Section title="💉 Lines / Access">
-            {patient.lines.map((l, i) => (
-              <Row key={i} label={`Line ${i + 1}`} value={`${l.type} — ${l.location} (${l.date})`} />
-            ))}
-          </Section>
-
-          <Section title="💊 Active Drips">
-            {patient.drips.map((d, i) => (
-              <Row key={i} label={d.name} value={`${d.concentration} @ ${d.rate}`} />
-            ))}
-          </Section>
-        </div>
-
-        {/* RIGHT COLUMN */}
-        <div className="flex flex-col gap-4">
-          <Section title="🧪 Labs — 24hr Trend">
-            <div className="grid grid-cols-2 gap-2">
-              {patient.labs.map((l, i) => (
-                <div key={i} className={`p-2 rounded-lg border text-sm ${l.abnormal ? 'border-red-200 bg-red-50' : 'border-gray-100 bg-gray-50'}`}>
-                  <div className="text-gray-500 text-xs">{l.name}</div>
-                  <div className={`font-bold text-base ${l.abnormal ? 'text-red-700' : 'text-gray-900'}`}>
-                    {l.value} <span className="text-sm">{l.unit}</span> <span>{l.trend}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Section>
-
-          <Section title="🦠 Cultures / ID" alert={!!positiveCulture}>
-            {patient.cultures.length === 0 ? (
-              <div className="text-sm text-gray-500">No cultures drawn</div>
-            ) : patient.cultures.map((c, i) => (
-              <div key={i} className="mb-2">
-                <Row
-                  label={c.type}
-                  value={c.status}
-                  highlight={c.status === 'POSITIVE' ? 'red' : c.status === 'No Growth' ? 'green' : 'yellow'}
-                />
-                {c.organism && <Row label="Organism" value={`${c.organism} — ${c.sensitivity}`} highlight="red" />}
-                {c.abxDayOf && <Row label="Abx day" value={c.abxDayOf} />}
-              </div>
-            ))}
-            {patient.antibiotics.map((a, i) => (
-              <Row key={i} label="Active Abx" value={a.name + ' — ' + a.day} />
-            ))}
-          </Section>
-
-          <Section title="🍽️ Nutrition / GI / GU">
-            <Row label="Diet / Nutrition" value={patient.nutrition.type + ' — ' + patient.nutrition.details} />
-            <Row label="Foley (since)" value={patient.nutrition.foleyDate} />
-            <Row
-              label="Urine Output"
-              value={patient.nutrition.urineOutput}
-              highlight={patient.nutrition.urineOutput.includes('low') || patient.nutrition.urineOutput.includes('22') ? 'red' : undefined}
-            />
-            <Row label="Last BM" value={patient.nutrition.lastBm} />
-          </Section>
-
-          <Section title="🩹 Skin">
-            {patient.skin.length === 0 ? (
-              <div className="text-sm text-green-700 font-medium">✓ No wounds or pressure injuries</div>
-            ) : patient.skin.map((s, i) => (
-              <Row key={i} label={s.location} value={`${s.type}${s.stage ? ' — ' + s.stage : ''} (noted ${s.date})`} highlight="yellow" />
-            ))}
-          </Section>
-
-          <Section title="⏳ Pending / Outstanding">
-            {patient.pending.length === 0 ? (
-              <div className="text-sm text-gray-500">Nothing outstanding</div>
-            ) : patient.pending.map((p, i) => (
-              <div key={i} className="flex items-start gap-2 text-sm py-1 border-b border-gray-100 last:border-0">
-                <span className={`text-xs font-semibold px-1.5 py-0.5 rounded mt-0.5 shrink-0 ${
-                  p.type === 'Lab' ? 'bg-blue-100 text-blue-700' :
-                  p.type === 'Imaging' ? 'bg-purple-100 text-purple-700' :
-                  p.type === 'Consult' ? 'bg-orange-100 text-orange-700' :
-                  'bg-gray-100 text-gray-700'
-                }`}>{p.type}</span>
-                <span className="text-gray-800">{p.description}</span>
-              </div>
-            ))}
-          </Section>
+      {/* ── 2. PAST MEDICAL HISTORY ── */}
+      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">📋 Past Medical History (PMH)</h3>
+        <div className="flex flex-wrap gap-2">
+          {patient.pmh.map((item, i) => (
+            <span key={i} className="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full border border-gray-200">
+              {item}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* TIMELINE */}
+      {/* ── 3. PATIENT TIMELINE ── */}
       <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">📅 Patient Timeline</h3>
@@ -234,7 +118,145 @@ export default function PatientPage() {
         </div>
       </div>
 
-      {/* OUTGOING NOTE */}
+      {/* ── 4. CLINICAL SECTIONS ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+
+        {/* NEURO */}
+        <Section title="🧠 Neuro">
+          <Row label="Check frequency" value={patient.neuro.checkFreq} />
+          <Row label="Last check" value={`${patient.neuro.lastCheck} (${patient.neuro.lastCheckTime})`} />
+          <Row label="RASS" value={`${patient.neuro.rass} (goal ${patient.neuro.rassGoal})`} />
+          <Row label="Sedation" value={patient.neuro.sedation} />
+        </Section>
+
+        {/* RESPIRATORY */}
+        <Section title="🫁 Respiratory">
+          {patient.respiratory.intubationDate ? (
+            <>
+              <Row label="Mode" value={patient.respiratory.mode} />
+              <Row label="FiO2 / PEEP" value={`${patient.respiratory.fio2} / ${patient.respiratory.peep}`} />
+              <Row label="Rate / Vt" value={`${patient.respiratory.rate} / ${patient.respiratory.tidalVolume}`} />
+              <Row label="Intubated" value={patient.respiratory.intubationDate} highlight="yellow" />
+              <Row label="Last ABG" value={patient.respiratory.lastAbg!} />
+            </>
+          ) : (
+            <>
+              <Row label="O2" value={patient.respiratory.o2Device!} />
+              {patient.respiratory.lastAbg && patient.respiratory.lastAbg !== 'Not indicated' && (
+                <Row label="Last ABG" value={patient.respiratory.lastAbg} />
+              )}
+            </>
+          )}
+        </Section>
+
+        {/* CARDIAC */}
+        <Section title="❤️ Cardiac">
+          <Row label="HR / Rhythm" value={`${patient.cardiac.hr} — ${patient.cardiac.rhythm}`} />
+          <Row
+            label="Blood Pressure"
+            value={`${patient.cardiac.bp} (${patient.cardiac.bpTrend})`}
+            highlight={patient.cardiac.bpTrend === 'worsening' ? 'red' : patient.cardiac.bpTrend === 'improving' ? 'green' : undefined}
+          />
+          {patient.cardiac.pressors.length > 0 ? (
+            patient.cardiac.pressors.map((p, i) => (
+              <Row key={i} label={i === 0 ? 'Pressors' : ''} value={`${p.name} @ ${p.rate}`} highlight="yellow" />
+            ))
+          ) : (
+            <Row label="Pressors" value="None" highlight="green" />
+          )}
+        </Section>
+
+        {/* GI / GU / NUTRITION */}
+        <Section title="🍽️ GI / GU / Nutrition">
+          <Row label="Diet / Nutrition" value={patient.nutrition.type + ' — ' + patient.nutrition.details} />
+          <Row label="Foley (since)" value={patient.nutrition.foleyDate} />
+          <Row
+            label="Urine Output"
+            value={patient.nutrition.urineOutput}
+            highlight={patient.nutrition.urineOutput.toLowerCase().includes('low') ? 'red' : undefined}
+          />
+          <Row label="Last BM" value={patient.nutrition.lastBm} />
+        </Section>
+
+        {/* SKIN */}
+        <Section title="🩹 Skin">
+          {patient.skin.length === 0 ? (
+            <div className="text-sm text-green-700 font-medium">✓ No wounds or pressure injuries</div>
+          ) : patient.skin.map((s, i) => (
+            <Row key={i} label={s.location} value={`${s.type}${s.stage ? ' — ' + s.stage : ''} (noted ${s.date})`} highlight="yellow" />
+          ))}
+        </Section>
+
+        {/* LINES / ACCESS */}
+        <Section title="💉 Lines / Access">
+          {patient.lines.map((l, i) => (
+            <Row key={i} label={`Line ${i + 1}`} value={`${l.type} — ${l.location} (${l.date})`} />
+          ))}
+        </Section>
+
+        {/* ACTIVE DRIPS */}
+        <Section title="💊 Active Drips">
+          {patient.drips.map((d, i) => (
+            <Row key={i} label={d.name} value={`${d.concentration} @ ${d.rate}`} />
+          ))}
+        </Section>
+
+        {/* CULTURES / ID */}
+        <Section title="🦠 Cultures" alert={!!positiveCulture}>
+          {patient.cultures.length === 0 ? (
+            <div className="text-sm text-gray-500">No cultures drawn</div>
+          ) : patient.cultures.map((c, i) => (
+            <div key={i} className="mb-2">
+              <Row
+                label={c.type}
+                value={c.status}
+                highlight={c.status === 'POSITIVE' ? 'red' : c.status === 'No Growth' ? 'green' : 'yellow'}
+              />
+              {c.organism && <Row label="Organism" value={`${c.organism} — ${c.sensitivity}`} highlight="red" />}
+              {c.abxDayOf && <Row label="Abx day" value={c.abxDayOf} />}
+            </div>
+          ))}
+          {patient.antibiotics.map((a, i) => (
+            <Row key={i} label="Active Abx" value={a.name + ' — ' + a.day} />
+          ))}
+        </Section>
+
+      </div>
+
+      {/* ── 5. LABS ── */}
+      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">🧪 Labs — 24hr Trend</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+          {patient.labs.map((l, i) => (
+            <div key={i} className={`p-2 rounded-lg border text-sm ${l.abnormal ? 'border-red-200 bg-red-50' : 'border-gray-100 bg-gray-50'}`}>
+              <div className="text-gray-500 text-xs">{l.name}</div>
+              <div className={`font-bold text-base ${l.abnormal ? 'text-red-700' : 'text-gray-900'}`}>
+                {l.value} <span className="text-sm">{l.unit}</span> <span>{l.trend}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── 6. PENDING / OUTSTANDING ── */}
+      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">⏳ Pending / Outstanding</h3>
+        {patient.pending.length === 0 ? (
+          <div className="text-sm text-gray-500">Nothing outstanding</div>
+        ) : patient.pending.map((p, i) => (
+          <div key={i} className="flex items-start gap-2 text-sm py-1 border-b border-gray-100 last:border-0">
+            <span className={`text-xs font-semibold px-1.5 py-0.5 rounded mt-0.5 shrink-0 ${
+              p.type === 'Lab' ? 'bg-blue-100 text-blue-700' :
+              p.type === 'Imaging' ? 'bg-purple-100 text-purple-700' :
+              p.type === 'Consult' ? 'bg-orange-100 text-orange-700' :
+              'bg-gray-100 text-gray-700'
+            }`}>{p.type}</span>
+            <span className="text-gray-800">{p.description}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* ── 7. OUTGOING NURSE NOTE ── */}
       <div className="bg-yellow-50 rounded-xl border border-yellow-200 p-5 mb-4">
         <h3 className="text-sm font-semibold uppercase tracking-wide text-yellow-700 mb-3">📝 Outgoing Nurse Note</h3>
         <textarea
@@ -245,7 +267,7 @@ export default function PatientPage() {
         />
       </div>
 
-      {/* HANDOFF SIGN-OFF */}
+      {/* ── 8. HANDOFF SIGN-OFF ── */}
       <div className="bg-white rounded-xl border-2 border-blue-200 p-5">
         <h3 className="text-sm font-semibold uppercase tracking-wide text-blue-700 mb-4">🤝 Shift Handoff Sign-Off</h3>
         {handoffStep === 0 && (

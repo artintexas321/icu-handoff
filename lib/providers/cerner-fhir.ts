@@ -114,6 +114,7 @@ export const cernerFhirProvider: PatientProvider = {
       skin: [],
       pending: [],
       timeline: [],
+      pmh: [],
       outgoingNote: '',
     }
   },

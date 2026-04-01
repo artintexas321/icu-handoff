@@ -72,6 +72,7 @@ function mapDetail(p: any): PatientDetail {
     skin: p.skin || [],
     pending: p.pending || [],
     timeline: p.timeline || [],
+    pmh: p.pmh || [],
     outgoingNote: p.outgoing_note || p.outgoingNote || '',
   }
 }

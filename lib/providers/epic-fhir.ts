@@ -165,7 +165,7 @@ export const epicFhirProvider: PatientProvider = {
       cardiac: {
         hr: hr ? `${(hr.valueQuantity as Record<string, unknown>)?.value}/min` : 'See monitor',
         rhythm: 'See telemetry',
-        bp: bp ? `${(bp.component as Array<Record<string, unknown>>)?.[0]?.valueQuantity?.value}/${(bp.component as Array<Record<string, unknown>>)?.[1]?.valueQuantity?.value}` : 'See monitor',
+        bp: bp ? (() => { const c = bp.component as Array<Record<string, unknown>> | undefined; const s = (c?.[0]?.valueQuantity as Record<string,unknown>)?.value; const d = (c?.[1]?.valueQuantity as Record<string,unknown>)?.value; return String(s) + '/' + String(d) })() : 'See monitor',
         bpTrend: 'stable',
         pressors: [],
       },
@@ -181,6 +181,7 @@ export const epicFhirProvider: PatientProvider = {
         (diagnosticReports.entry || []).map((e: Record<string, unknown>) => e.resource as Record<string, unknown>),
         (docRefs.entry || []).map((e: Record<string, unknown>) => e.resource as Record<string, unknown>)
       ),
+      pmh: [],
       outgoingNote: '',
     }
   },

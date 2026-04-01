@@ -40,6 +40,7 @@ export interface PatientSummary {
 }
 
 export interface PatientDetail extends PatientSummary {
+  pmh: string[]
   neuro: {
     checkFreq: string
     lastCheck: string

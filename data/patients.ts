@@ -47,6 +47,7 @@ export interface Patient {
   nutrition: { type: string; details: string; foleyDate: string; urineOutput: string; lastBm: string }
   skin: Array<{ location: string; type: string; stage?: string; date: string }>
   pending: Array<{ type: 'Lab' | 'Imaging' | 'Consult' | 'Callback'; description: string }>
+  pmh: string[]
   timeline: Array<{ date: string; event: string; critical?: boolean; type?: 'imaging' | 'procedure' | 'event' | 'note' }>
   outgoingNote: string
   handoffStatus: 'pending' | 'outgoing_confirmed' | 'complete'
@@ -146,6 +147,7 @@ export const patients: Patient[] = [
       { date: '03/31', event: 'CXR: Slight improvement in LLL consolidation. ET tube remains well-positioned.', type: 'imaging' },
       { date: '03/31', event: 'Renal function worsening — creatinine 1.9 (up from 1.2 on admission). Nephrology aware.', critical: true, type: 'note' }
     ],
+    pmh: ['HTN', 'T2DM', 'CKD Stage 2', 'COPD', 'Former smoker (40 pack-year)'],
     outgoingNote: 'Pressors slowly weaning — MAP staying above 65 without changes. Wife is at bedside, very anxious, wants update from Dr. Patel tonight. Watch UO this shift — may need lasix if it drops below 30 mL/hr. Coccyx redness noted on assessment, turn Q2h.',
     handoffStatus: 'pending'
   },
@@ -220,6 +222,7 @@ export const patients: Patient[] = [
       { date: '03/31', event: 'DNR status confirmed and documented. Patient clearly stated wishes to son James.', type: 'note' },
       { date: '03/31', event: 'Echo ordered for 04/01 to assess post-MI wall motion and EF.', type: 'note' }
     ],
+    pmh: ['CAD', 'HTN', 'HFrEF (EF 35%)', 'T2DM', 'Afib (on anticoag prior to admission)', 'CKD Stage 3'],
     outgoingNote: 'Very pleasant lady, doing well post-PCI. Troponin trending down nicely. Son James was here all day — good family support. DNR was confirmed today, she is clear about her wishes. Watch for any chest pain or rhythm changes overnight.',
     handoffStatus: 'outgoing_confirmed'
   },
@@ -297,6 +300,7 @@ export const patients: Patient[] = [
       { date: '03/31', event: 'Transferred to MICU for insulin drip management and close monitoring.', type: 'event' },
       { date: '03/31', event: 'Endocrine consult placed. Awaiting callback.', type: 'note' }
     ],
+    pmh: ['T2DM (insulin-dependent)', 'Hypertriglyceridemia', 'Obesity (BMI 38)', 'Prior episode pancreatitis (2022)', 'OSA'],
     outgoingNote: 'Gap closing slowly, glucose coming down. Very uncomfortable — give morphine PRN for abdominal pain before turning/moving him. Wife called twice — update her when glucose is under 250. Do NOT let him eat anything, still strict NPO. K is low, make sure repletion order is in.',
     handoffStatus: 'pending'
   },
@@ -380,6 +384,7 @@ export const patients: Patient[] = [
       { date: '03/31', event: 'Melena noted at 14:00. GI re-consulted. Repeat EGD planned for 04/01 at 07:00.', critical: true, type: 'note' },
       { date: '03/31', event: 'DNR/DNI confirmed with patient and son Paul. Goals of care discussion initiated — not yet complete.', type: 'note' }
     ],
+    pmh: ['PUD (duodenal ulcer, h/o prior GI bleed 2019)', 'Afib (on warfarin)', 'HTN', 'CKD Stage 3', 'Osteoporosis', 'Hypothyroidism'],
     outgoingNote: 'Actively rebleeding — do not be surprised if Hgb drops again on repeat labs. Transfusion threshold is Hgb < 7 per GI. Son Paul is very involved and upset — be patient with him. Goals of care conversation was started today but not completed. Dr. Okafor wants to have a family meeting tomorrow before EGD. UO is concerning, mentioned to Dr. Okafor — watching.',
     handoffStatus: 'pending'
   }
