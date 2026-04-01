@@ -42,6 +42,7 @@ export interface Patient {
     pressors: Array<{ name: string; rate: string }>
   }
   lines: Array<{ type: string; location: string; date: string }>
+  accessSite?: { location: string; notes: string; date: string }
   drips: Array<{ name: string; concentration: string; rate: string }>
   labs: Array<{ name: string; value: string; unit: string; trend: '↑' | '↓' | '→'; abnormal: boolean }>
   cultures: Array<{ type: string; drawn: string; status: CultureStatus; organism?: string; sensitivity?: string; abxDayOf?: string }>
@@ -208,6 +209,7 @@ export const patients: Patient[] = [
       { type: 'Peripheral IV', location: 'Left AC', date: '03/30/2026' },
       { type: 'Peripheral IV', location: 'Right Forearm', date: '03/30/2026' }
     ],
+    accessSite: { location: 'Right groin (femoral)', notes: 'No hematoma, intact, dry dressing', date: '03/30/2026' },
     drips: [
       { name: 'Heparin', concentration: '25,000 units/250 mL', rate: '20 mL/hr' },
       { name: 'Nitroglycerin', concentration: '100 mcg/mL', rate: '5 mL/hr' }

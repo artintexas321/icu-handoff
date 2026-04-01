@@ -73,6 +73,7 @@ export interface PatientDetail extends PatientSummary {
     pressors: Array<{ name: string; rate: string }>
   }
   lines: Array<{ type: string; location: string; date: string }>
+  accessSite?: { location: string; notes: string; date: string }
   drips: Array<{ name: string; concentration: string; rate: string }>
   labs: Array<{ name: string; value: string; unit: string; trend: '↑' | '↓' | '→'; abnormal: boolean }>
   cultures: Array<{ type: string; drawn: string; status: string; organism?: string; sensitivity?: string; abxDayOf?: string }>

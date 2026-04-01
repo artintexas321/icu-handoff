@@ -237,6 +237,13 @@ export default function PatientPage() {
           {patient.lines.map((l, i) => (
             <Row key={i} label={`Line ${i + 1}`} value={`${l.type} — ${l.location} (${l.date})`} />
           ))}
+          {patient.accessSite && (
+            <Row
+              label="Access Site"
+              value={`${patient.accessSite.location} — ${patient.accessSite.notes} (${patient.accessSite.date})`}
+              highlight="yellow"
+            />
+          )}
         </Section>
 
         {/* ACTIVE DRIPS */}
