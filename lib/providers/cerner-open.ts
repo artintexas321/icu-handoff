@@ -66,7 +66,7 @@ function mapVitals(observations: Record<string, unknown>[]) {
 
   const bpVal = bp ? (() => {
     const comp = bp.component as Array<Record<string, unknown>> | undefined
-    if (comp?.length >= 2) {
+    if (comp && comp.length >= 2) {
       const sys = (comp[0].valueQuantity as Record<string, unknown>)?.value
       const dia = (comp[1].valueQuantity as Record<string, unknown>)?.value
       return `${sys}/${dia} mmHg`
