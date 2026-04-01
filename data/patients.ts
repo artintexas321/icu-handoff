@@ -141,7 +141,7 @@ export const patients: Patient[] = [
       freeWaterFlush: '100 mL q4h',
       foleyDate: '03/27/2026',
       urineCultureSent: true,
-      urineOutput: '304 mL (07:00–15:00 shift)',
+      urineOutput: '304 mL day shift',
       lastBm: '03/30/2026'
     },
     skin: [
@@ -232,7 +232,7 @@ export const patients: Patient[] = [
       details: 'Low sodium, eating well',
       foleyDate: '03/30/2026',
       urineCultureSent: true,
-      urineOutput: '520 mL (07:00–15:00 shift)',
+      urineOutput: '520 mL day shift',
       lastBm: '03/31/2026'
     },
     skin: [],
@@ -319,7 +319,7 @@ export const patients: Patient[] = [
       details: 'NPO — pancreatitis, pain management with morphine PRN',
       foleyDate: '03/31/2026',
       urineCultureSent: false,
-      urineOutput: '440 mL (07:00–15:00 shift)',
+      urineOutput: '440 mL day shift',
       lastBm: 'None this admission'
     },
     skin: [],
@@ -409,7 +409,7 @@ export const patients: Patient[] = [
       details: 'NPO pre-repeat EGD',
       foleyDate: '03/29/2026',
       urineCultureSent: true,
-      urineOutput: '176 mL (07:00–15:00 shift) ⚠ Low',
+      urineOutput: '176 mL day shift ⚠ Low',
       lastBm: 'Melena 03/31 at 14:00'
     },
     skin: [
