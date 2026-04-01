@@ -104,8 +104,8 @@ export const patients: Patient[] = [
       { type: 'Peripheral IV', location: 'Right AC', date: '03/29/2026' }
     ],
     drips: [
-      { name: 'Norepinephrine', concentration: '4 mg/250 mL NS', rate: '12 mL/hr' },
-      { name: 'Vasopressin', concentration: '20 units/100 mL NS', rate: '9 mL/hr' },
+      { name: 'Norepinephrine', concentration: '4 mg/250 mL NS', rate: '0.08 mcg/kg/min' },
+      { name: 'Vasopressin', concentration: '20 units/100 mL NS', rate: '0.03 units/min' },
       { name: 'Propofol', concentration: '10 mg/mL', rate: '22 mL/hr' },
       { name: 'Heparin', concentration: '25,000 units/250 mL', rate: '18 mL/hr' }
     ],
@@ -372,7 +372,7 @@ export const patients: Patient[] = [
       { type: 'Peripheral IV', location: 'Right AC (16g)', date: '03/29/2026' }
     ],
     drips: [
-      { name: 'Norepinephrine', concentration: '4 mg/250 mL NS', rate: '7 mL/hr' },
+      { name: 'Norepinephrine', concentration: '4 mg/250 mL NS', rate: '0.05 mcg/kg/min' },
       { name: 'Pantoprazole', concentration: '40 mg/100 mL NS', rate: 'continuous 8 mg/hr' }
     ],
     labs: [
