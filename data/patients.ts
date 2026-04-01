@@ -48,8 +48,8 @@ export interface Patient {
   cultures: Array<{ type: string; drawn: string; status: CultureStatus; organism?: string; sensitivity?: string; abxDayOf?: string }>
   antibiotics: Array<{ name: string; day: string }>
   careTeam: {
-    attending: { name: string; service: string; callback: string }
-    consults: Array<{ service: string; name: string; callback: string }>
+    attending: { name: string; service: string; callback?: string }
+    consults: Array<{ service: string; name: string; callback?: string }>
   }
   nutrition: { type: string; details: string; tubeAccess?: string; freeWaterFlush?: string; foleyDate: string; urineCultureSent?: boolean; urineOutput: string; lastBm: string }
   skin: Array<{ location: string; type: string; stage?: string; date: string }>
@@ -224,9 +224,10 @@ export const patients: Patient[] = [
     cultures: [],
     antibiotics: [],
     careTeam: {
-      attending: { name: 'Dr. Williams', service: 'Cardiology', callback: '(210) 555-1210' },
+      attending: { name: 'Dr. Williams', service: 'Hospitalist' },
       consults: [
-        { service: 'Cardiac Surgery', name: 'Dr. Reyes', callback: '(210) 555-4450' }
+        { service: 'Cardiology', name: 'Dr. Reyes' },
+        { service: 'Interventional Cardiology', name: 'Dr. Nguyen' },
       ]
     },
     nutrition: {
