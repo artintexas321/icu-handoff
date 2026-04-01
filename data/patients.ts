@@ -47,7 +47,7 @@ export interface Patient {
   nutrition: { type: string; details: string; foleyDate: string; urineOutput: string; lastBm: string }
   skin: Array<{ location: string; type: string; stage?: string; date: string }>
   pending: Array<{ type: 'Lab' | 'Imaging' | 'Consult' | 'Callback'; description: string }>
-  timeline: Array<{ date: string; event: string; critical?: boolean }>
+  timeline: Array<{ date: string; event: string; critical?: boolean; type?: 'imaging' | 'procedure' | 'event' | 'note' }>
   outgoingNote: string
   handoffStatus: 'pending' | 'outgoing_confirmed' | 'complete'
 }
@@ -135,14 +135,16 @@ export const patients: Patient[] = [
       { type: 'Callback', description: 'Dr. Patel re: vasopressin wean plan' }
     ],
     timeline: [
-      { date: '03/27', event: 'Presented to ED with fever, hypotension, altered mental status' },
-      { date: '03/27', event: 'Intubated in ED at 03:42 for respiratory failure', critical: true },
-      { date: '03/27', event: 'Transferred to MICU, central line and art line placed' },
-      { date: '03/27', event: 'Blood cultures drawn, meropenem started' },
-      { date: '03/28', event: 'Blood culture POSITIVE: Klebsiella pneumoniae', critical: true },
-      { date: '03/29', event: 'ID consult placed, meropenem continued per sensitivities' },
-      { date: '03/30', event: 'Norepinephrine weaned from 0.15 → 0.08 mcg/kg/min' },
-      { date: '03/31', event: 'Vasopressin still at 0.03, renal function worsening' }
+      { date: '03/27', event: 'BIB EMS from home with 3-day history of fever, chills, confusion. Found hypotensive (BP 74/40), temp 103.8°F, O2 82% on RA.', type: 'event' },
+      { date: '03/27', event: 'CXR: Dense left lower lobe consolidation consistent with pneumonia. No pneumothorax.', type: 'imaging' },
+      { date: '03/27', event: 'Intubated in ED at 03:42 for hypoxic respiratory failure.', critical: true, type: 'procedure' },
+      { date: '03/27', event: 'CT Chest: Multifocal pneumonia, no PE, no effusion.', type: 'imaging' },
+      { date: '03/27', event: 'Transferred to MICU. Central line (RIJ) and arterial line (L radial) placed.', type: 'procedure' },
+      { date: '03/28', event: 'Blood culture POSITIVE — Klebsiella pneumoniae, sensitive to meropenem.', critical: true, type: 'note' },
+      { date: '03/28', event: 'CXR: ET tube in good position. Continued LLL consolidation.', type: 'imaging' },
+      { date: '03/29', event: 'ID consult placed. Meropenem continued per sensitivity report.', type: 'note' },
+      { date: '03/31', event: 'CXR: Slight improvement in LLL consolidation. ET tube remains well-positioned.', type: 'imaging' },
+      { date: '03/31', event: 'Renal function worsening — creatinine 1.9 (up from 1.2 on admission). Nephrology aware.', critical: true, type: 'note' }
     ],
     outgoingNote: 'Pressors slowly weaning — MAP staying above 65 without changes. Wife is at bedside, very anxious, wants update from Dr. Patel tonight. Watch UO this shift — may need lasix if it drops below 30 mL/hr. Coccyx redness noted on assessment, turn Q2h.',
     handoffStatus: 'pending'
@@ -210,11 +212,13 @@ export const patients: Patient[] = [
       { type: 'Imaging', description: 'Echo scheduled 04/01 AM' }
     ],
     timeline: [
-      { date: '03/30', event: 'Called 911 with chest pain, inferior STEMI on EKG', critical: true },
-      { date: '03/30', event: 'Direct to cath lab — LAD 95% occlusion, stent placed', critical: true },
-      { date: '03/30', event: 'Transferred to MICU post-PCI for monitoring' },
-      { date: '03/31', event: 'Troponin trending down, hemodynamically stable' },
-      { date: '03/31', event: 'DNR status confirmed with family and documented' }
+      { date: '03/30', event: 'Called 911 with sudden onset crushing chest pain radiating to left arm, diaphoretic. EMS EKG: inferior STEMI. Direct activation of cath lab.', critical: true, type: 'event' },
+      { date: '03/30', event: 'CXR (pre-cath): Mild cardiomegaly. No acute pulmonary edema.', type: 'imaging' },
+      { date: '03/30', event: 'Cardiac Cath: RCA 95% occlusion — thrombectomy + drug-eluting stent placed. TIMI 3 flow restored.', critical: true, type: 'procedure' },
+      { date: '03/30', event: 'Transferred to MICU post-PCI for hemodynamic monitoring.', type: 'event' },
+      { date: '03/31', event: 'CXR: Mild vascular congestion. No new effusion. Sternal wires intact.', type: 'imaging' },
+      { date: '03/31', event: 'DNR status confirmed and documented. Patient clearly stated wishes to son James.', type: 'note' },
+      { date: '03/31', event: 'Echo ordered for 04/01 to assess post-MI wall motion and EF.', type: 'note' }
     ],
     outgoingNote: 'Very pleasant lady, doing well post-PCI. Troponin trending down nicely. Son James was here all day — good family support. DNR was confirmed today, she is clear about her wishes. Watch for any chest pain or rhythm changes overnight.',
     handoffStatus: 'outgoing_confirmed'
@@ -286,10 +290,12 @@ export const patients: Patient[] = [
       { type: 'Callback', description: 'Endocrine consult — called, awaiting callback' }
     ],
     timeline: [
-      { date: '03/31', event: 'Presented to ED with abdominal pain, vomiting, glucose 580', critical: true },
-      { date: '03/31', event: 'DKA protocol started, insulin drip initiated' },
-      { date: '03/31', event: 'Lipase 1840 — acute pancreatitis diagnosis confirmed' },
-      { date: '03/31', event: 'Transferred to MICU for insulin drip management' }
+      { date: '03/31', event: 'BIB EMS from home with 12-hr history of severe epigastric/abdominal pain, nausea, vomiting x8. Known T2DM, non-compliant with insulin. Glucose 580 in field.', critical: true, type: 'event' },
+      { date: '03/31', event: 'CXR: No acute cardiopulmonary process. No free air.', type: 'imaging' },
+      { date: '03/31', event: 'CT Abdomen/Pelvis with contrast: Peripancreatic fat stranding consistent with acute interstitial pancreatitis. No necrosis. No abscess. No free air.', type: 'imaging' },
+      { date: '03/31', event: 'DKA and acute pancreatitis diagnoses confirmed. Insulin drip and aggressive IVF started.', type: 'procedure' },
+      { date: '03/31', event: 'Transferred to MICU for insulin drip management and close monitoring.', type: 'event' },
+      { date: '03/31', event: 'Endocrine consult placed. Awaiting callback.', type: 'note' }
     ],
     outgoingNote: 'Gap closing slowly, glucose coming down. Very uncomfortable — give morphine PRN for abdominal pain before turning/moving him. Wife called twice — update her when glucose is under 250. Do NOT let him eat anything, still strict NPO. K is low, make sure repletion order is in.',
     handoffStatus: 'pending'
@@ -365,12 +371,14 @@ export const patients: Patient[] = [
       { type: 'Callback', description: 'Family meeting requested by son Paul — goals of care' }
     ],
     timeline: [
-      { date: '03/28', event: 'Admitted to Methodist with hematemesis, Hgb 9.2' },
-      { date: '03/29', event: 'EGD at Methodist — duodenal ulcer with active bleeding, clipped' },
-      { date: '03/29', event: 'Transfer to MICU (higher level of care — instability)', critical: true },
-      { date: '03/30', event: '2 units pRBC transfused, Hgb 8.1 → 6.8 (rebleeding suspected)', critical: true },
-      { date: '03/31', event: 'Melena noted, GI re-consulted, repeat EGD planned 04/01' },
-      { date: '03/31', event: 'DNR/DNI status confirmed — son Paul aware, goals of care discussion ongoing' }
+      { date: '03/28', event: 'Presented to Methodist ED with hematemesis x2 episodes at home. Family found her confused. Hgb 9.2, BP 88/50 on arrival.', critical: true, type: 'event' },
+      { date: '03/28', event: 'CXR (Methodist): Cardiomegaly, no acute pulmonary edema.', type: 'imaging' },
+      { date: '03/29', event: 'EGD at Methodist: Duodenal ulcer with active spurting — clipped x2. Hemostasis achieved.', type: 'procedure' },
+      { date: '03/29', event: 'Transfer to MICU for higher level of care due to hemodynamic instability despite procedure.', critical: true, type: 'event' },
+      { date: '03/29', event: 'CXR (on transfer): ET tube not placed. Mild bilateral atelectasis. No effusion.', type: 'imaging' },
+      { date: '03/30', event: 'Hgb dropped 8.1 → 6.8 — rebleeding suspected. 2 units pRBC transfused.', critical: true, type: 'procedure' },
+      { date: '03/31', event: 'Melena noted at 14:00. GI re-consulted. Repeat EGD planned for 04/01 at 07:00.', critical: true, type: 'note' },
+      { date: '03/31', event: 'DNR/DNI confirmed with patient and son Paul. Goals of care discussion initiated — not yet complete.', type: 'note' }
     ],
     outgoingNote: 'Actively rebleeding — do not be surprised if Hgb drops again on repeat labs. Transfusion threshold is Hgb < 7 per GI. Son Paul is very involved and upset — be patient with him. Goals of care conversation was started today but not completed. Dr. Okafor wants to have a family meeting tomorrow before EGD. UO is concerning, mentioned to Dr. Okafor — watching.',
     handoffStatus: 'pending'

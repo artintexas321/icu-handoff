@@ -199,20 +199,38 @@ export default function PatientPage() {
 
       {/* TIMELINE */}
       <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-4">📅 Patient Timeline</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">📅 Patient Timeline</h3>
+          <div className="flex gap-3 text-xs text-gray-400">
+            <span>⚠ Critical</span>
+            <span className="text-purple-500">🩻 Imaging</span>
+            <span className="text-blue-500">⚕ Procedure</span>
+            <span>📋 Note</span>
+          </div>
+        </div>
         <div className="relative">
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
-          {patient.timeline.map((t, i) => (
-            <div key={i} className="relative flex gap-4 mb-3 last:mb-0">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 z-10 ${t.critical ? 'bg-red-100 text-red-700 border-2 border-red-300' : 'bg-gray-100 text-gray-600 border-2 border-gray-300'}`}>
-                {t.critical ? '!' : '✓'}
+          {patient.timeline.map((t, i) => {
+            const icon = t.critical ? '⚠' : t.type === 'imaging' ? '🩻' : t.type === 'procedure' ? '⚕' : t.type === 'note' ? '📋' : '•'
+            const dotClass = t.critical
+              ? 'bg-red-100 text-red-700 border-2 border-red-300'
+              : t.type === 'imaging'
+              ? 'bg-purple-100 text-purple-700 border-2 border-purple-200'
+              : t.type === 'procedure'
+              ? 'bg-blue-100 text-blue-700 border-2 border-blue-200'
+              : 'bg-gray-100 text-gray-600 border-2 border-gray-300'
+            return (
+              <div key={i} className="relative flex gap-4 mb-3 last:mb-0">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs shrink-0 z-10 ${dotClass}`}>
+                  {icon}
+                </div>
+                <div className="pt-1">
+                  <span className="text-xs font-semibold text-gray-400 mr-2">{t.date}</span>
+                  <span className={`text-sm ${t.critical ? 'text-red-800 font-medium' : t.type === 'imaging' ? 'text-purple-800' : 'text-gray-700'}`}>{t.event}</span>
+                </div>
               </div>
-              <div className="pt-1">
-                <span className="text-xs font-semibold text-gray-400 mr-2">{t.date}</span>
-                <span className={`text-sm ${t.critical ? 'text-red-800 font-medium' : 'text-gray-700'}`}>{t.event}</span>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
