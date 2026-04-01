@@ -159,13 +159,13 @@ async function buildPatientDetail(id: string): Promise<PatientDetail> {
   const { bpVal, hrVal, spo2Val, tempVal } = mapVitals(vitals)
 
   // Map active meds to drips (IV meds) vs oral
-  const activeMeds = meds.filter(m => m.status === 'active')
-  const ivMeds = activeMeds.filter(m => {
+  const activeMeds = meds.filter((m: Record<string, unknown>) => m.status === 'active')
+  const ivMeds = activeMeds.filter((m: Record<string, unknown>) => {
     const route = (m.dosageInstruction as Array<Record<string, unknown>>)?.[0]?.route as Record<string, unknown>
     return (route?.text as string || '').toLowerCase().includes('iv') ||
            (route?.text as string || '').toLowerCase().includes('intravenous')
   })
-  const drips = ivMeds.slice(0, 6).map(m => ({
+  const drips = ivMeds.slice(0, 6).map((m: Record<string, unknown>) => ({
     name: (m.medicationCodeableConcept as Record<string, unknown>)?.text as string || 'IV Med',
     concentration: 'Per pharmacy',
     rate: (m.dosageInstruction as Array<Record<string, unknown>>)?.[0]?.text as string || 'Per orders',
@@ -217,13 +217,13 @@ async function buildPatientDetail(id: string): Promise<PatientDetail> {
     labs: mapLabsFromObservations([...vitals, ...labs]),
     cultures: [],
     antibiotics: activeMeds
-      .filter(m => {
+      .filter((m: Record<string, unknown>) => {
         const name = ((m.medicationCodeableConcept as Record<string, unknown>)?.text as string || '').toLowerCase()
         return name.includes('cillin') || name.includes('mycin') || name.includes('cycline') ||
                name.includes('floxacin') || name.includes('azole') || name.includes('vanco')
       })
       .slice(0, 3)
-      .map(m => ({
+      .map((m: Record<string, unknown>) => ({
         name: (m.medicationCodeableConcept as Record<string, unknown>)?.text as string || 'Antibiotic',
         day: 'See MAR',
       })),

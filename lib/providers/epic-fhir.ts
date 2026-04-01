@@ -165,7 +165,7 @@ export const epicFhirProvider: PatientProvider = {
       cardiac: {
         hr: hr ? `${(hr.valueQuantity as Record<string, unknown>)?.value}/min` : 'See monitor',
         rhythm: 'See telemetry',
-        bp: bp ? `${(bp.component as Array<Record<string, unknown>>)?.[0]?.valueQuantity?.value}/${(bp.component as Array<Record<string, unknown>>)?.[1]?.valueQuantity?.value}` : 'See monitor',
+        bp: bp ? `${((bp.component as Array<Record<string, unknown>>)?.[0]?.valueQuantity as Record<string, unknown>)?.value}/${((bp.component as Array<Record<string, unknown>>)?.[1]?.valueQuantity as Record<string, unknown>)?.value}` : 'See monitor',
         bpTrend: 'stable',
         pressors: [],
       },
