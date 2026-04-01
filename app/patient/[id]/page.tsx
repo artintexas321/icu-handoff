@@ -155,8 +155,10 @@ export default function PatientPage() {
           {patient.respiratory.intubationDate ? (
             <>
               <Row label="Mode" value={patient.respiratory.mode} />
-              <Row label="FiO2 / PEEP" value={`${patient.respiratory.fio2} / ${patient.respiratory.peep}`} />
-              <Row label="Rate / Vt" value={`${patient.respiratory.rate} / ${patient.respiratory.tidalVolume}`} />
+              <Row label="PEEP" value={patient.respiratory.peep!} />
+              <Row label="Tidal Volume" value={patient.respiratory.tidalVolume!} />
+              <Row label="Rate" value={patient.respiratory.rate!} />
+              <Row label="FiO2" value={patient.respiratory.fio2!} />
               <Row label="Intubated" value={patient.respiratory.intubationDate} highlight="yellow" />
               <Row label="Last ABG" value={patient.respiratory.lastAbg!} />
             </>
@@ -191,7 +193,7 @@ export default function PatientPage() {
         {/* GI / GU / NUTRITION */}
         <Section title="🍽️ GI / GU / Nutrition">
           <Row label="Diet / Nutrition" value={patient.nutrition.type + ' — ' + patient.nutrition.details} />
-          <Row label="Foley (since)" value={patient.nutrition.foleyDate} />
+          <Row label="Foley" value={patient.nutrition.foleyDate} />
           <Row
             label="Urine Output"
             value={patient.nutrition.urineOutput}
