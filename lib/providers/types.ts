@@ -51,7 +51,6 @@ export interface PatientDetail extends PatientSummary {
     lastCheckTime: string
     rass: string
     rassGoal: string
-    sedation: string
   }
   respiratory: {
     mode: string
@@ -68,6 +67,7 @@ export interface PatientDetail extends PatientSummary {
     rhythm: string
     bp: string
     bpTrend: 'stable' | 'improving' | 'worsening'
+    mapGoal: string
     pressors: Array<{ name: string; rate: string }>
   }
   lines: Array<{ type: string; location: string; date: string }>

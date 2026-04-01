@@ -148,7 +148,6 @@ export default function PatientPage() {
           <Row label="Check frequency" value={patient.neuro.checkFreq} />
           <Row label="Last check" value={`${patient.neuro.lastCheck} (${patient.neuro.lastCheckTime})`} />
           <Row label="RASS" value={`${patient.neuro.rass} (goal ${patient.neuro.rassGoal})`} />
-          <Row label="Sedation" value={patient.neuro.sedation} />
         </Section>
 
         {/* RESPIRATORY */}
@@ -179,6 +178,7 @@ export default function PatientPage() {
             value={`${patient.cardiac.bp} (${patient.cardiac.bpTrend})`}
             highlight={patient.cardiac.bpTrend === 'worsening' ? 'red' : patient.cardiac.bpTrend === 'improving' ? 'green' : undefined}
           />
+          <Row label="MAP Goal" value={patient.cardiac.mapGoal} />
           {patient.cardiac.pressors.length > 0 ? (
             patient.cardiac.pressors.map((p, i) => (
               <Row key={i} label={i === 0 ? 'Pressors' : ''} value={`${p.name} @ ${p.rate}`} highlight="yellow" />

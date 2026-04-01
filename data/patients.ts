@@ -20,7 +20,6 @@ export interface Patient {
     lastCheckTime: string
     rass: string
     rassGoal: string
-    sedation: string
   }
   respiratory: {
     mode: string
@@ -37,6 +36,7 @@ export interface Patient {
     rhythm: string
     bp: string
     bpTrend: 'stable' | 'improving' | 'worsening'
+    mapGoal: string
     pressors: Array<{ name: string; rate: string }>
   }
   lines: Array<{ type: string; location: string; date: string }>
@@ -77,7 +77,6 @@ export const patients: Patient[] = [
       lastCheckTime: '17:15',
       rass: '-1',
       rassGoal: '-1 to 0',
-      sedation: 'Propofol 10 mcg/kg/min'
     },
     respiratory: {
       mode: 'AC/VC',
@@ -93,6 +92,7 @@ export const patients: Patient[] = [
       rhythm: 'Sinus Tachycardia',
       bp: '102/64',
       bpTrend: 'improving',
+      mapGoal: '≥65',
       pressors: [
         { name: 'Norepinephrine', rate: '0.08 mcg/kg/min' },
         { name: 'Vasopressin', rate: '0.03 units/min' }
@@ -181,7 +181,6 @@ export const patients: Patient[] = [
       lastCheckTime: '18:00',
       rass: '0',
       rassGoal: '0',
-      sedation: 'None'
     },
     respiratory: {
       mode: 'Nasal Cannula',
@@ -193,6 +192,7 @@ export const patients: Patient[] = [
       rhythm: 'Normal Sinus Rhythm',
       bp: '118/72',
       bpTrend: 'stable',
+      mapGoal: '≥65',
       pressors: []
     },
     lines: [
@@ -262,7 +262,6 @@ export const patients: Patient[] = [
       lastCheckTime: '17:30',
       rass: '0',
       rassGoal: '0',
-      sedation: 'None'
     },
     respiratory: {
       mode: 'Room Air',
@@ -273,6 +272,7 @@ export const patients: Patient[] = [
       rhythm: 'Sinus Tachycardia',
       bp: '128/78',
       bpTrend: 'stable',
+      mapGoal: '≥65',
       pressors: []
     },
     lines: [
@@ -347,7 +347,6 @@ export const patients: Patient[] = [
       lastCheckTime: '16:45',
       rass: '0',
       rassGoal: '0',
-      sedation: 'None'
     },
     respiratory: {
       mode: 'Nasal Cannula',
@@ -358,6 +357,7 @@ export const patients: Patient[] = [
       rhythm: 'Atrial Fibrillation',
       bp: '96/58',
       bpTrend: 'worsening',
+      mapGoal: '≥70',
       pressors: [
         { name: 'Norepinephrine', rate: '0.05 mcg/kg/min' }
       ]
