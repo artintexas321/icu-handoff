@@ -93,7 +93,7 @@ export const patients: Patient[] = [
     },
     cardiac: {
       hr: '98',
-      rhythm: 'Sinus Tachycardia',
+      rhythm: 'Normal Sinus Rhythm',
       bp: '102/64',
       bpTrend: 'improving',
       mapGoal: '≥65',
