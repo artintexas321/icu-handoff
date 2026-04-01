@@ -133,7 +133,7 @@ export const patients: Patient[] = [
     nutrition: {
       type: 'Tube Feed',
       details: 'Osmolite 1.5 @ 55 mL/hr (goal 60 mL/hr)',
-      tubeAccess: 'OG tube',
+      tubeAccess: 'OG tube — 70 cm @ lip',
       foleyDate: '03/27/2026',
       urineOutput: '304 mL (07:00–15:00 shift)',
       lastBm: '03/30/2026'
