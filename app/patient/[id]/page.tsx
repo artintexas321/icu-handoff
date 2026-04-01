@@ -16,8 +16,8 @@ function Field({ label, value, red, yellow, green }: { label: string; value: Rea
   const chip = red ? 'bg-red-100 text-red-800' : yellow ? 'bg-yellow-100 text-yellow-800' : green ? 'bg-green-100 text-green-800' : ''
   return (
     <div className="flex items-start gap-1 text-xs py-0.5 border-b border-gray-50 last:border-0">
-      <span className="text-gray-400 w-[130px] shrink-0 leading-5">{label}</span>
-      <span className={`text-gray-900 font-medium leading-5 flex-1 ${chip ? `px-1 rounded ${chip}` : ''}`}>{value}</span>
+      <span className="text-gray-400 w-[95px] shrink-0 leading-5">{label}</span>
+      <span className={`text-gray-900 font-medium leading-5 flex-1 min-w-0 break-words ${chip ? `px-1 rounded ${chip}` : ''}`}>{value}</span>
     </div>
   )
 }
@@ -115,8 +115,8 @@ export default function PatientPage() {
             </Block>
           </div>
 
-          {/* ── ROW 2: CLINICAL SECTIONS (3-col grid) ── */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+          {/* ── ROW 2: CLINICAL SECTIONS ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
 
             {/* NEURO */}
             <Block title="🧠 Neuro">
@@ -218,7 +218,10 @@ export default function PatientPage() {
               {patient.drips.length === 0
                 ? <div className="text-xs text-gray-400">No active drips</div>
                 : patient.drips.map((d, i) => (
-                    <Field key={i} label={d.name} value={`${d.concentration} @ ${d.rate}`} />
+                    <div key={i} className="py-0.5 border-b border-gray-50 last:border-0">
+                      <div className="text-xs font-semibold text-gray-800">{d.name}</div>
+                      <div className="text-xs text-gray-500">{d.concentration} @ {d.rate}</div>
+                    </div>
                   ))
               }
             </Block>
