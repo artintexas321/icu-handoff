@@ -73,6 +73,7 @@ function mapDetail(p: any): PatientDetail {
     pending: p.pending || [],
     timeline: p.timeline || [],
     pmh: p.pmh || [],
+    careTeam: p.careTeam || { attending: { name: 'See system', service: '', callback: '' }, consults: [] },
     outgoingNote: p.outgoing_note || p.outgoingNote || '',
   }
 }

@@ -32,6 +32,7 @@ function toDetail(p: typeof rawPatients[0]): PatientDetail {
   return {
     ...toSummary(p),
     pmh: p.pmh,
+    careTeam: p.careTeam,
     neuro: p.neuro,
     respiratory: p.respiratory,
     cardiac: p.cardiac,

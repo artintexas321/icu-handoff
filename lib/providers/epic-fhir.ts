@@ -182,6 +182,10 @@ export const epicFhirProvider: PatientProvider = {
         (docRefs.entry || []).map((e: Record<string, unknown>) => e.resource as Record<string, unknown>)
       ),
       pmh: [],
+    careTeam: {
+      attending: { name: 'See Cerner', service: 'ICU', callback: '' },
+      consults: [],
+    },
       outgoingNote: '',
     }
   },

@@ -115,6 +115,10 @@ export const cernerFhirProvider: PatientProvider = {
       pending: [],
       timeline: [],
       pmh: [],
+    careTeam: {
+      attending: { name: 'See Cerner', service: 'ICU', callback: '' },
+      consults: [],
+    },
       outgoingNote: '',
     }
   },

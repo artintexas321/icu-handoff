@@ -41,6 +41,10 @@ export interface PatientSummary {
 
 export interface PatientDetail extends PatientSummary {
   pmh: string[]
+  careTeam: {
+    attending: { name: string; service: string; callback: string }
+    consults: Array<{ service: string; name: string; callback: string }>
+  }
   neuro: {
     checkFreq: string
     lastCheck: string

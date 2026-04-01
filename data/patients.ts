@@ -44,6 +44,10 @@ export interface Patient {
   labs: Array<{ name: string; value: string; unit: string; trend: '↑' | '↓' | '→'; abnormal: boolean }>
   cultures: Array<{ type: string; drawn: string; status: CultureStatus; organism?: string; sensitivity?: string; abxDayOf?: string }>
   antibiotics: Array<{ name: string; day: string }>
+  careTeam: {
+    attending: { name: string; service: string; callback: string }
+    consults: Array<{ service: string; name: string; callback: string }>
+  }
   nutrition: { type: string; details: string; foleyDate: string; urineOutput: string; lastBm: string }
   skin: Array<{ location: string; type: string; stage?: string; date: string }>
   pending: Array<{ type: 'Lab' | 'Imaging' | 'Consult' | 'Callback'; description: string }>
@@ -119,11 +123,18 @@ export const patients: Patient[] = [
     antibiotics: [
       { name: 'Meropenem 1g IV Q8h', day: 'Day 4' }
     ],
+    careTeam: {
+      attending: { name: 'Dr. Patel', service: 'MICU', callback: '(210) 555-1100' },
+      consults: [
+        { service: 'Infectious Disease', name: 'Dr. Rodriguez', callback: '(210) 555-2210' },
+        { service: 'Nephrology', name: 'Dr. Kim', callback: '(210) 555-3340' }
+      ]
+    },
     nutrition: {
       type: 'Tube Feed',
       details: 'Osmolite 1.5 @ 55 mL/hr (goal 60 mL/hr)',
       foleyDate: '03/27/2026',
-      urineOutput: '38 mL/hr (last 8h: 304 mL)',
+      urineOutput: '304 mL (07:00–15:00 shift)',
       lastBm: '03/30/2026'
     },
     skin: [
@@ -201,11 +212,17 @@ export const patients: Patient[] = [
     ],
     cultures: [],
     antibiotics: [],
+    careTeam: {
+      attending: { name: 'Dr. Williams', service: 'Cardiology', callback: '(210) 555-1210' },
+      consults: [
+        { service: 'Cardiac Surgery', name: 'Dr. Reyes', callback: '(210) 555-4450' }
+      ]
+    },
     nutrition: {
       type: 'Cardiac Diet',
       details: 'Low sodium, eating well',
       foleyDate: '03/30/2026',
-      urineOutput: '65 mL/hr (adequate)',
+      urineOutput: '520 mL (07:00–15:00 shift)',
       lastBm: '03/31/2026'
     },
     skin: [],
@@ -278,11 +295,18 @@ export const patients: Patient[] = [
       { type: 'Blood Culture x2', drawn: '03/31/2026', status: 'Pending' }
     ],
     antibiotics: [],
+    careTeam: {
+      attending: { name: 'Dr. Nguyen', service: 'MICU', callback: '(210) 555-1102' },
+      consults: [
+        { service: 'Endocrine', name: 'Dr. Pham', callback: '(210) 555-5560' },
+        { service: 'GI', name: 'Dr. Castillo', callback: '(210) 555-6670' }
+      ]
+    },
     nutrition: {
       type: 'NPO',
       details: 'NPO — pancreatitis, pain management with morphine PRN',
       foleyDate: '03/31/2026',
-      urineOutput: '55 mL/hr',
+      urineOutput: '440 mL (07:00–15:00 shift)',
       lastBm: 'None this admission'
     },
     skin: [],
@@ -358,11 +382,18 @@ export const patients: Patient[] = [
       { type: 'Blood Culture x2', drawn: '03/29/2026', status: 'No Growth' }
     ],
     antibiotics: [],
+    careTeam: {
+      attending: { name: 'Dr. Okafor', service: 'MICU', callback: '(210) 555-1104' },
+      consults: [
+        { service: 'GI', name: 'Dr. Castillo', callback: '(210) 555-6670' },
+        { service: 'Hematology', name: 'Dr. Singh', callback: '(210) 555-7780' }
+      ]
+    },
     nutrition: {
       type: 'NPO',
       details: 'NPO pre-repeat EGD',
       foleyDate: '03/29/2026',
-      urineOutput: '22 mL/hr (low — concerning)',
+      urineOutput: '176 mL (07:00–15:00 shift) ⚠ Low',
       lastBm: 'Melena 03/31 at 14:00'
     },
     skin: [
