@@ -247,6 +247,7 @@ export const patients: Patient[] = [
       { date: '03/30', event: 'CXR (pre-cath): Mild cardiomegaly. No acute pulmonary edema.', type: 'imaging' },
       { date: '03/30', event: 'Cardiac Cath: RCA 95% occlusion — thrombectomy + drug-eluting stent placed. TIMI 3 flow restored.', critical: true, type: 'procedure' },
       { date: '03/30', event: 'Transferred to MICU post-PCI for hemodynamic monitoring.', type: 'event' },
+      { date: '03/30', event: 'Access site assessment: Right groin (femoral) — no hematoma, intact, dry dressing applied.', type: 'procedure' },
       { date: '03/31', event: 'CXR: Mild vascular congestion. No new effusion. Sternal wires intact.', type: 'imaging' },
       { date: '03/31', event: 'DNR status confirmed and documented. Patient clearly stated wishes to son James.', type: 'note' },
       { date: '03/31', event: 'Echo ordered for 04/01 to assess post-MI wall motion and EF.', type: 'note' }

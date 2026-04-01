@@ -225,11 +225,22 @@ export default function PatientPage() {
 
         {/* SKIN */}
         <Section title="🩹 Skin">
-          {patient.skin.length === 0 ? (
+          {patient.skin.length === 0 && !patient.accessSite ? (
             <div className="text-sm text-green-700 font-medium">✓ No wounds or pressure injuries</div>
-          ) : patient.skin.map((s, i) => (
-            <Row key={i} label={s.location} value={`${s.type}${s.stage ? ' — ' + s.stage : ''} (noted ${s.date})`} highlight="yellow" />
-          ))}
+          ) : (
+            <>
+              {patient.accessSite && (
+                <Row
+                  label="Access Site"
+                  value={`${patient.accessSite.location} — ${patient.accessSite.notes} (${patient.accessSite.date})`}
+                  highlight="yellow"
+                />
+              )}
+              {patient.skin.map((s, i) => (
+                <Row key={i} label={s.location} value={`${s.type}${s.stage ? ' — ' + s.stage : ''} (noted ${s.date})`} highlight="yellow" />
+              ))}
+            </>
+          )}
         </Section>
 
         {/* LINES / ACCESS */}
@@ -237,13 +248,6 @@ export default function PatientPage() {
           {patient.lines.map((l, i) => (
             <Row key={i} label={`Line ${i + 1}`} value={`${l.type} — ${l.location} (${l.date})`} />
           ))}
-          {patient.accessSite && (
-            <Row
-              label="Access Site"
-              value={`${patient.accessSite.location} — ${patient.accessSite.notes} (${patient.accessSite.date})`}
-              highlight="yellow"
-            />
-          )}
         </Section>
 
         {/* ACTIVE DRIPS */}
