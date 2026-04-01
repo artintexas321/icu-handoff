@@ -1,0 +1,378 @@
+export type CodeStatus = 'Full Code' | 'DNR' | 'DNI' | 'DNR/DNI'
+export type CultureStatus = 'Pending' | 'No Growth' | 'POSITIVE'
+
+export interface Patient {
+  id: string
+  name: string
+  age: number
+  room: string
+  diagnosis: string
+  attending: string
+  admitDate: string
+  admitSource: string
+  codeStatus: CodeStatus
+  allergies: string[]
+  familyContact: string
+  familyPhone: string
+  neuro: {
+    checkFreq: string
+    lastCheck: string
+    lastCheckTime: string
+    rass: string
+    rassGoal: string
+    sedation: string
+  }
+  respiratory: {
+    mode: string
+    fio2?: string
+    peep?: string
+    rate?: string
+    tidalVolume?: string
+    o2Device?: string
+    intubationDate?: string
+    lastAbg?: string
+  }
+  cardiac: {
+    hr: string
+    rhythm: string
+    bp: string
+    bpTrend: 'stable' | 'improving' | 'worsening'
+    pressors: Array<{ name: string; rate: string }>
+  }
+  lines: Array<{ type: string; location: string; date: string }>
+  drips: Array<{ name: string; concentration: string; rate: string }>
+  labs: Array<{ name: string; value: string; unit: string; trend: '↑' | '↓' | '→'; abnormal: boolean }>
+  cultures: Array<{ type: string; drawn: string; status: CultureStatus; organism?: string; sensitivity?: string; abxDayOf?: string }>
+  antibiotics: Array<{ name: string; day: string }>
+  nutrition: { type: string; details: string; foleyDate: string; urineOutput: string; lastBm: string }
+  skin: Array<{ location: string; type: string; stage?: string; date: string }>
+  pending: Array<{ type: 'Lab' | 'Imaging' | 'Consult' | 'Callback'; description: string }>
+  timeline: Array<{ date: string; event: string; critical?: boolean }>
+  outgoingNote: string
+  handoffStatus: 'pending' | 'outgoing_confirmed' | 'complete'
+}
+
+export const patients: Patient[] = [
+  {
+    id: '1',
+    name: 'Robert Martinez',
+    age: 67,
+    room: 'ICU-04',
+    diagnosis: 'Septic Shock / Pneumonia',
+    attending: 'Dr. Patel',
+    admitDate: '03/27/2026',
+    admitSource: 'ED',
+    codeStatus: 'Full Code',
+    allergies: ['Penicillin', 'Sulfa'],
+    familyContact: 'Maria Martinez (wife)',
+    familyPhone: '(210) 555-0142',
+    neuro: {
+      checkFreq: 'Q4h',
+      lastCheck: 'Follows commands, pupils equal/reactive',
+      lastCheckTime: '17:15',
+      rass: '-1',
+      rassGoal: '-1 to 0',
+      sedation: 'Propofol 10 mcg/kg/min'
+    },
+    respiratory: {
+      mode: 'AC/VC',
+      fio2: '50%',
+      peep: '8',
+      rate: '16',
+      tidalVolume: '450 mL',
+      intubationDate: '03/27/2026 03:42',
+      lastAbg: '03/31 06:00 — pH 7.38, PaO2 88, PaCO2 42'
+    },
+    cardiac: {
+      hr: '98',
+      rhythm: 'Sinus Tachycardia',
+      bp: '102/64',
+      bpTrend: 'improving',
+      pressors: [
+        { name: 'Norepinephrine', rate: '0.08 mcg/kg/min' },
+        { name: 'Vasopressin', rate: '0.03 units/min' }
+      ]
+    },
+    lines: [
+      { type: 'Central Line (RIJ, triple lumen)', location: 'Right Internal Jugular', date: '03/27/2026' },
+      { type: 'Arterial Line', location: 'Left Radial', date: '03/27/2026' },
+      { type: 'Peripheral IV', location: 'Right AC', date: '03/29/2026' }
+    ],
+    drips: [
+      { name: 'Norepinephrine', concentration: '4 mg/250 mL NS', rate: '12 mL/hr' },
+      { name: 'Vasopressin', concentration: '20 units/100 mL NS', rate: '9 mL/hr' },
+      { name: 'Propofol', concentration: '10 mg/mL', rate: '22 mL/hr' },
+      { name: 'Heparin', concentration: '25,000 units/250 mL', rate: '18 mL/hr' }
+    ],
+    labs: [
+      { name: 'WBC', value: '18.4', unit: 'K/uL', trend: '↓', abnormal: true },
+      { name: 'Lactate', value: '2.8', unit: 'mmol/L', trend: '↓', abnormal: true },
+      { name: 'Creatinine', value: '1.9', unit: 'mg/dL', trend: '↑', abnormal: true },
+      { name: 'Hgb', value: '8.2', unit: 'g/dL', trend: '→', abnormal: true },
+      { name: 'Plt', value: '142', unit: 'K/uL', trend: '↓', abnormal: false },
+      { name: 'Na', value: '138', unit: 'mEq/L', trend: '→', abnormal: false }
+    ],
+    cultures: [
+      { type: 'Blood Culture x2', drawn: '03/27/2026', status: 'POSITIVE', organism: 'Klebsiella pneumoniae', sensitivity: 'Sensitive to meropenem', abxDayOf: 'Day 4' }
+    ],
+    antibiotics: [
+      { name: 'Meropenem 1g IV Q8h', day: 'Day 4' }
+    ],
+    nutrition: {
+      type: 'Tube Feed',
+      details: 'Osmolite 1.5 @ 55 mL/hr (goal 60 mL/hr)',
+      foleyDate: '03/27/2026',
+      urineOutput: '38 mL/hr (last 8h: 304 mL)',
+      lastBm: '03/30/2026'
+    },
+    skin: [
+      { location: 'Coccyx', type: 'Pressure Injury', stage: 'Stage 1', date: '03/29/2026' }
+    ],
+    pending: [
+      { type: 'Lab', description: 'Repeat lactate at 20:00' },
+      { type: 'Imaging', description: 'CXR ordered — not yet read' },
+      { type: 'Consult', description: 'Infectious Disease — pending response' },
+      { type: 'Callback', description: 'Dr. Patel re: vasopressin wean plan' }
+    ],
+    timeline: [
+      { date: '03/27', event: 'Presented to ED with fever, hypotension, altered mental status' },
+      { date: '03/27', event: 'Intubated in ED at 03:42 for respiratory failure', critical: true },
+      { date: '03/27', event: 'Transferred to MICU, central line and art line placed' },
+      { date: '03/27', event: 'Blood cultures drawn, meropenem started' },
+      { date: '03/28', event: 'Blood culture POSITIVE: Klebsiella pneumoniae', critical: true },
+      { date: '03/29', event: 'ID consult placed, meropenem continued per sensitivities' },
+      { date: '03/30', event: 'Norepinephrine weaned from 0.15 → 0.08 mcg/kg/min' },
+      { date: '03/31', event: 'Vasopressin still at 0.03, renal function worsening' }
+    ],
+    outgoingNote: 'Pressors slowly weaning — MAP staying above 65 without changes. Wife is at bedside, very anxious, wants update from Dr. Patel tonight. Watch UO this shift — may need lasix if it drops below 30 mL/hr. Coccyx redness noted on assessment, turn Q2h.',
+    handoffStatus: 'pending'
+  },
+  {
+    id: '2',
+    name: 'Dorothy Chen',
+    age: 74,
+    room: 'ICU-07',
+    diagnosis: 'STEMI — Post-PCI',
+    attending: 'Dr. Williams',
+    admitDate: '03/30/2026',
+    admitSource: 'Cath Lab (direct)',
+    codeStatus: 'DNR',
+    allergies: ['Contrast dye (mild reaction)'],
+    familyContact: 'James Chen (son)',
+    familyPhone: '(210) 555-0287',
+    neuro: {
+      checkFreq: 'Q4h',
+      lastCheck: 'Alert, oriented x4',
+      lastCheckTime: '18:00',
+      rass: '0',
+      rassGoal: '0',
+      sedation: 'None'
+    },
+    respiratory: {
+      mode: 'Nasal Cannula',
+      o2Device: '2L NC — SpO2 96%',
+      lastAbg: 'Not indicated'
+    },
+    cardiac: {
+      hr: '72',
+      rhythm: 'Normal Sinus Rhythm',
+      bp: '118/72',
+      bpTrend: 'stable',
+      pressors: []
+    },
+    lines: [
+      { type: 'Peripheral IV', location: 'Left AC', date: '03/30/2026' },
+      { type: 'Peripheral IV', location: 'Right Forearm', date: '03/30/2026' }
+    ],
+    drips: [
+      { name: 'Heparin', concentration: '25,000 units/250 mL', rate: '20 mL/hr' },
+      { name: 'Nitroglycerin', concentration: '100 mcg/mL', rate: '5 mL/hr' }
+    ],
+    labs: [
+      { name: 'Troponin', value: '12.4', unit: 'ng/mL', trend: '↓', abnormal: true },
+      { name: 'BNP', value: '890', unit: 'pg/mL', trend: '↓', abnormal: true },
+      { name: 'Hgb', value: '10.1', unit: 'g/dL', trend: '→', abnormal: true },
+      { name: 'Cr', value: '1.1', unit: 'mg/dL', trend: '→', abnormal: false },
+      { name: 'K', value: '3.8', unit: 'mEq/L', trend: '→', abnormal: false }
+    ],
+    cultures: [],
+    antibiotics: [],
+    nutrition: {
+      type: 'Cardiac Diet',
+      details: 'Low sodium, eating well',
+      foleyDate: '03/30/2026',
+      urineOutput: '65 mL/hr (adequate)',
+      lastBm: '03/31/2026'
+    },
+    skin: [],
+    pending: [
+      { type: 'Lab', description: 'Serial troponin at 22:00' },
+      { type: 'Imaging', description: 'Echo scheduled 04/01 AM' }
+    ],
+    timeline: [
+      { date: '03/30', event: 'Called 911 with chest pain, inferior STEMI on EKG', critical: true },
+      { date: '03/30', event: 'Direct to cath lab — LAD 95% occlusion, stent placed', critical: true },
+      { date: '03/30', event: 'Transferred to MICU post-PCI for monitoring' },
+      { date: '03/31', event: 'Troponin trending down, hemodynamically stable' },
+      { date: '03/31', event: 'DNR status confirmed with family and documented' }
+    ],
+    outgoingNote: 'Very pleasant lady, doing well post-PCI. Troponin trending down nicely. Son James was here all day — good family support. DNR was confirmed today, she is clear about her wishes. Watch for any chest pain or rhythm changes overnight.',
+    handoffStatus: 'outgoing_confirmed'
+  },
+  {
+    id: '3',
+    name: 'Marcus Thompson',
+    age: 52,
+    room: 'ICU-11',
+    diagnosis: 'DKA / Acute Pancreatitis',
+    attending: 'Dr. Nguyen',
+    admitDate: '03/31/2026',
+    admitSource: 'ED',
+    codeStatus: 'Full Code',
+    allergies: ['NKDA'],
+    familyContact: 'Sandra Thompson (wife)',
+    familyPhone: '(210) 555-0391',
+    neuro: {
+      checkFreq: 'Q4h',
+      lastCheck: 'Alert, oriented x3 (confused to date)',
+      lastCheckTime: '17:30',
+      rass: '0',
+      rassGoal: '0',
+      sedation: 'None'
+    },
+    respiratory: {
+      mode: 'Room Air',
+      o2Device: 'RA — SpO2 98%',
+    },
+    cardiac: {
+      hr: '112',
+      rhythm: 'Sinus Tachycardia',
+      bp: '128/78',
+      bpTrend: 'stable',
+      pressors: []
+    },
+    lines: [
+      { type: 'Peripheral IV', location: 'Right AC (18g)', date: '03/31/2026' },
+      { type: 'Peripheral IV', location: 'Left Forearm (20g)', date: '03/31/2026' }
+    ],
+    drips: [
+      { name: 'Regular Insulin', concentration: '100 units/100 mL NS', rate: '8 units/hr' },
+      { name: 'LR (IVF)', concentration: '1000 mL LR', rate: '250 mL/hr' }
+    ],
+    labs: [
+      { name: 'Glucose', value: '342', unit: 'mg/dL', trend: '↓', abnormal: true },
+      { name: 'Bicarb', value: '14', unit: 'mEq/L', trend: '↑', abnormal: true },
+      { name: 'Anion Gap', value: '22', unit: '', trend: '↓', abnormal: true },
+      { name: 'Lipase', value: '1840', unit: 'U/L', trend: '→', abnormal: true },
+      { name: 'K', value: '3.2', unit: 'mEq/L', trend: '↓', abnormal: true },
+      { name: 'Cr', value: '1.4', unit: 'mg/dL', trend: '↓', abnormal: true }
+    ],
+    cultures: [
+      { type: 'Blood Culture x2', drawn: '03/31/2026', status: 'Pending' }
+    ],
+    antibiotics: [],
+    nutrition: {
+      type: 'NPO',
+      details: 'NPO — pancreatitis, pain management with morphine PRN',
+      foleyDate: '03/31/2026',
+      urineOutput: '55 mL/hr',
+      lastBm: 'None this admission'
+    },
+    skin: [],
+    pending: [
+      { type: 'Lab', description: 'Q2h glucose checks — next at 19:30' },
+      { type: 'Lab', description: 'BMP at 20:00' },
+      { type: 'Imaging', description: 'CT Abdomen/Pelvis — ordered, not yet done' },
+      { type: 'Callback', description: 'Endocrine consult — called, awaiting callback' }
+    ],
+    timeline: [
+      { date: '03/31', event: 'Presented to ED with abdominal pain, vomiting, glucose 580', critical: true },
+      { date: '03/31', event: 'DKA protocol started, insulin drip initiated' },
+      { date: '03/31', event: 'Lipase 1840 — acute pancreatitis diagnosis confirmed' },
+      { date: '03/31', event: 'Transferred to MICU for insulin drip management' }
+    ],
+    outgoingNote: 'Gap closing slowly, glucose coming down. Very uncomfortable — give morphine PRN for abdominal pain before turning/moving him. Wife called twice — update her when glucose is under 250. Do NOT let him eat anything, still strict NPO. K is low, make sure repletion order is in.',
+    handoffStatus: 'pending'
+  },
+  {
+    id: '4',
+    name: 'Helen Kowalski',
+    age: 81,
+    room: 'ICU-14',
+    diagnosis: 'GI Bleed / Hypovolemic Shock',
+    attending: 'Dr. Okafor',
+    admitDate: '03/29/2026',
+    admitSource: 'Transfer — Methodist Hospital',
+    codeStatus: 'DNR/DNI',
+    allergies: ['Aspirin', 'NSAIDs'],
+    familyContact: 'Paul Kowalski (son)',
+    familyPhone: '(210) 555-0504',
+    neuro: {
+      checkFreq: 'Q4h',
+      lastCheck: 'Alert, oriented x2 (person/place)',
+      lastCheckTime: '16:45',
+      rass: '0',
+      rassGoal: '0',
+      sedation: 'None'
+    },
+    respiratory: {
+      mode: 'Nasal Cannula',
+      o2Device: '3L NC — SpO2 94%',
+    },
+    cardiac: {
+      hr: '88',
+      rhythm: 'Atrial Fibrillation',
+      bp: '96/58',
+      bpTrend: 'worsening',
+      pressors: [
+        { name: 'Norepinephrine', rate: '0.05 mcg/kg/min' }
+      ]
+    },
+    lines: [
+      { type: 'Central Line (LIJV, double lumen)', location: 'Left Internal Jugular', date: '03/29/2026' },
+      { type: 'Peripheral IV', location: 'Right AC (16g)', date: '03/29/2026' }
+    ],
+    drips: [
+      { name: 'Norepinephrine', concentration: '4 mg/250 mL NS', rate: '7 mL/hr' },
+      { name: 'Pantoprazole', concentration: '40 mg/100 mL NS', rate: 'continuous 8 mg/hr' }
+    ],
+    labs: [
+      { name: 'Hgb', value: '6.8', unit: 'g/dL', trend: '↓', abnormal: true },
+      { name: 'Hct', value: '21', unit: '%', trend: '↓', abnormal: true },
+      { name: 'INR', value: '2.4', unit: '', trend: '↑', abnormal: true },
+      { name: 'Plt', value: '88', unit: 'K/uL', trend: '↓', abnormal: true },
+      { name: 'BUN', value: '68', unit: 'mg/dL', trend: '↑', abnormal: true },
+      { name: 'Cr', value: '2.1', unit: 'mg/dL', trend: '↑', abnormal: true }
+    ],
+    cultures: [
+      { type: 'Blood Culture x2', drawn: '03/29/2026', status: 'No Growth' }
+    ],
+    antibiotics: [],
+    nutrition: {
+      type: 'NPO',
+      details: 'NPO pre-repeat EGD',
+      foleyDate: '03/29/2026',
+      urineOutput: '22 mL/hr (low — concerning)',
+      lastBm: 'Melena 03/31 at 14:00'
+    },
+    skin: [
+      { location: 'Right heel', type: 'Pressure Injury', stage: 'Stage 2', date: '03/29/2026 (present on transfer)' }
+    ],
+    pending: [
+      { type: 'Lab', description: 'Repeat CBC at 20:00 — likely needs transfusion' },
+      { type: 'Imaging', description: 'Repeat EGD scheduled 04/01 07:00' },
+      { type: 'Callback', description: 'GI team — called re: transfusion threshold' },
+      { type: 'Callback', description: 'Family meeting requested by son Paul — goals of care' }
+    ],
+    timeline: [
+      { date: '03/28', event: 'Admitted to Methodist with hematemesis, Hgb 9.2' },
+      { date: '03/29', event: 'EGD at Methodist — duodenal ulcer with active bleeding, clipped' },
+      { date: '03/29', event: 'Transfer to MICU (higher level of care — instability)', critical: true },
+      { date: '03/30', event: '2 units pRBC transfused, Hgb 8.1 → 6.8 (rebleeding suspected)', critical: true },
+      { date: '03/31', event: 'Melena noted, GI re-consulted, repeat EGD planned 04/01' },
+      { date: '03/31', event: 'DNR/DNI status confirmed — son Paul aware, goals of care discussion ongoing' }
+    ],
+    outgoingNote: 'Actively rebleeding — do not be surprised if Hgb drops again on repeat labs. Transfusion threshold is Hgb < 7 per GI. Son Paul is very involved and upset — be patient with him. Goals of care conversation was started today but not completed. Dr. Okafor wants to have a family meeting tomorrow before EGD. UO is concerning, mentioned to Dr. Okafor — watching.',
+    handoffStatus: 'pending'
+  }
+]
