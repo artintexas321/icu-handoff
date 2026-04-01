@@ -176,11 +176,15 @@ export default function PatientPage() {
         <Section title="❤️ Cardiac">
           <Row label="HR / Rhythm" value={`${patient.cardiac.hr} — ${patient.cardiac.rhythm}`} />
           <Row
-            label="Blood Pressure"
-            value={`${patient.cardiac.bp} (${patient.cardiac.bpTrend})`}
+            label="BP / MAP"
+            value={(() => {
+              const parts = patient.cardiac.bp.split('/')
+              const sys = parseInt(parts[0]), dia = parseInt(parts[1])
+              const map = isNaN(sys) || isNaN(dia) ? '?' : Math.round((sys + 2 * dia) / 3)
+              return `${patient.cardiac.bp}  —  MAP ${map}  (goal ${patient.cardiac.mapGoal})`
+            })()}
             highlight={patient.cardiac.bpTrend === 'worsening' ? 'red' : patient.cardiac.bpTrend === 'improving' ? 'green' : undefined}
           />
-          <Row label="MAP Goal" value={patient.cardiac.mapGoal} />
           {patient.cardiac.pressors.length > 0 ? (
             patient.cardiac.pressors.map((p, i) => (
               <Row key={i} label={i === 0 ? 'Pressors' : ''} value={`${p.name} @ ${p.rate}`} highlight="yellow" />
