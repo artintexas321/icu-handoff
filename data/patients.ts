@@ -48,7 +48,7 @@ export interface Patient {
     attending: { name: string; service: string; callback: string }
     consults: Array<{ service: string; name: string; callback: string }>
   }
-  nutrition: { type: string; details: string; foleyDate: string; urineOutput: string; lastBm: string }
+  nutrition: { type: string; details: string; tubeAccess?: string; foleyDate: string; urineOutput: string; lastBm: string }
   skin: Array<{ location: string; type: string; stage?: string; date: string }>
   pending: Array<{ type: 'Lab' | 'Imaging' | 'Consult' | 'Callback'; description: string }>
   pmh: string[]
@@ -133,6 +133,7 @@ export const patients: Patient[] = [
     nutrition: {
       type: 'Tube Feed',
       details: 'Osmolite 1.5 @ 55 mL/hr (goal 60 mL/hr)',
+      tubeAccess: 'OG tube (intubated)',
       foleyDate: '03/27/2026',
       urineOutput: '304 mL (07:00–15:00 shift)',
       lastBm: '03/30/2026'

@@ -75,7 +75,7 @@ export interface PatientDetail extends PatientSummary {
   labs: Array<{ name: string; value: string; unit: string; trend: '↑' | '↓' | '→'; abnormal: boolean }>
   cultures: Array<{ type: string; drawn: string; status: string; organism?: string; sensitivity?: string; abxDayOf?: string }>
   antibiotics: Array<{ name: string; day: string }>
-  nutrition: { type: string; details: string; foleyDate: string; urineOutput: string; lastBm: string }
+  nutrition: { type: string; details: string; tubeAccess?: string; foleyDate: string; urineOutput: string; lastBm: string }
   skin: Array<{ location: string; type: string; stage?: string; date: string }>
   pending: Array<{ type: 'Lab' | 'Imaging' | 'Consult' | 'Callback'; description: string }>
   timeline: TimelineEntry[]
