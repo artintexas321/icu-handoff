@@ -30,6 +30,8 @@ export default function PatientPage() {
   const patient = patients.find(p => p.id === id)
   const [note, setNote] = useState(patient?.outgoingNote || '')
   const [handoffStep, setHandoffStep] = useState(patient?.handoffStatus === 'complete' ? 2 : patient?.handoffStatus === 'outgoing_confirmed' ? 1 : 0)
+  const [incomingName, setIncomingName] = useState('')
+  const [confirmedAt] = useState(new Date().toLocaleTimeString())
 
   if (!patient) return <div className="p-8 text-center text-gray-500">Patient not found.</div>
 
@@ -313,29 +315,44 @@ export default function PatientPage() {
 
       {/* ── SIGN-OFF ── */}
       <div className="bg-white rounded-xl border-2 border-blue-200 p-5">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-blue-700 mb-4">🤝 Shift Handoff Sign-Off</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-blue-700 mb-4">🤝 Handoff Sign-Off</h3>
         {handoffStep === 0 && (
           <div className="flex flex-col gap-3">
-            <p className="text-sm text-gray-600">Outgoing nurse: confirm all information above is accurate and note is complete.</p>
+            <p className="text-sm text-gray-600">Outgoing nurse: confirm all information above is accurate and your note is complete.</p>
             <button onClick={() => setHandoffStep(1)} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full sm:w-auto">
-              ✓ I confirm this information is accurate — Outgoing Nurse
+              ✓ Confirm handoff ready — Outgoing Nurse
             </button>
           </div>
         )}
         {handoffStep === 1 && (
           <div className="flex flex-col gap-3">
-            <div className="text-sm text-green-700 font-medium">✓ Outgoing nurse confirmed at {new Date().toLocaleTimeString()}</div>
-            <p className="text-sm text-gray-600">Incoming nurse: review all sections and accept this patient.</p>
-            <button onClick={() => setHandoffStep(2)} className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full sm:w-auto">
-              ✓ I have reviewed and accept this patient — Incoming Nurse
-            </button>
+            <div className="text-sm text-green-700 font-medium">✓ Outgoing nurse confirmed at {confirmedAt}</div>
+            <p className="text-sm text-gray-600">Type the incoming nurse&apos;s name to complete handoff:</p>
+            <input
+              type="text"
+              className="border border-gray-300 rounded-lg px-4 py-2 text-sm w-full sm:w-80 focus:outline-none focus:ring-2 focus:ring-green-400"
+              placeholder="Incoming nurse name..."
+              value={incomingName}
+              onChange={e => setIncomingName(e.target.value)}
+              autoFocus
+            />
+            {incomingName.trim().length > 1 && (
+              <button
+                onClick={() => setHandoffStep(2)}
+                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full sm:w-auto"
+              >
+                ✓ Handoff to {incomingName.trim()}
+              </button>
+            )}
           </div>
         )}
         {handoffStep === 2 && (
           <div className="text-center py-4">
             <div className="text-4xl mb-2">✅</div>
             <div className="text-lg font-bold text-green-700">Handoff Complete</div>
-            <div className="text-sm text-gray-500 mt-1">Both nurses signed off at {new Date().toLocaleTimeString()}</div>
+            <div className="text-sm text-gray-500 mt-1">
+              Handed off to <strong className="text-gray-700">{incomingName.trim() || 'Incoming Nurse'}</strong> at {new Date().toLocaleTimeString()}
+            </div>
           </div>
         )}
       </div>
