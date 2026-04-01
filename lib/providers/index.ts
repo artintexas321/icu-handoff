@@ -19,6 +19,7 @@ import type { PatientProvider } from './types'
 import { mockProvider } from './mock'
 import { epicFhirProvider } from './epic-fhir'
 import { cernerFhirProvider } from './cerner-fhir'
+import { cernerOpenProvider } from './cerner-open'
 import { genericRestProvider } from './generic-rest'
 
 const providerName = process.env.DATA_PROVIDER || 'mock'
@@ -27,6 +28,7 @@ const providers: Record<string, PatientProvider> = {
   mock: mockProvider,
   epic: epicFhirProvider,
   cerner: cernerFhirProvider,
+  'cerner-open': cernerOpenProvider,
   generic: genericRestProvider,
 }
 
